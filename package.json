@@ -1,0 +1,10 @@
+{
+  "name": "CSUSBot",
+  "version": "0.0.1",
+  "description": "A bot that will tell users whether or not the room is open",
+  "main": "bot.js",
+  "author": "Edel Altares (https://edelgrace.me)",
+  "dependencies": {
+    
+  }
+}
