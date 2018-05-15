@@ -13,8 +13,6 @@ logger.add(logger.transports.Console, {
   colorize: true
 });
 
-logger.info(auth.token);
-
 // initialize the bot
 var bot = new Discord.Client({
   token: auth.token,
@@ -25,7 +23,7 @@ logger.info("Bot created");
 
 bot.on('ready', function (event) {
   logger.info('Bot connected to server');
-  logger.info('Logged in as: ' + bot.username + ' - (' + bot.id + ')');
+  logger.info('Bot logged in as: ' + bot.username + ' - (' + bot.id + ')');
 });
 
 bot.on('disconnect', function(error, code) {
@@ -34,16 +32,14 @@ bot.on('disconnect', function(error, code) {
 });
 
 bot.on('message', function (user, userID, channelID, message, event) {
-  // look for messages starting with '!'
-  if (message.substring(0,1) == '!'){
-    var args = message.substring(1).split(' ');
-    var cmd = args[0];
+  msg = message.trim();
+  msg = msg.toLowerCase();
 
-    args = args.splice(1);
+  if(msg.startsWith(".csus")) {
 
     switch(cmd) {
       // !status
-      case 'status':
+      case '.csus room':
         bot.sendMessage({
           to: channelID,
           message: 'The CSUS room is '
@@ -52,4 +48,5 @@ bot.on('message', function (user, userID, channelID, message, event) {
         
     }
   }
+  
 });
