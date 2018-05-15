@@ -28,17 +28,6 @@ bot.on('ready', function (event) {
   logger.info('Logged in as: ' + bot.username + ' - (' + bot.id + ')');
 });
 
-
-
-bot.on('message', function(user, userID, channelID, message, event) {
-    if (message === "ping") {
-        bot.sendMessage({
-            to: channelID,
-            message: "pong"
-        });
-    }
-});
-
 bot.on('disconnect', function(error, code) {
   logger.error(error);
   logger.error(code);
@@ -53,11 +42,11 @@ bot.on('message', function (user, userID, channelID, message, event) {
     args = args.splice(1);
 
     switch(cmd) {
-      // !ping
-      case 'ping':
+      // !status
+      case 'status':
         bot.sendMessage({
           to: channelID,
-          message: 'Pong!'
+          message: 'The CSUS room is '
         });
         break;
         

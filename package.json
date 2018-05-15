@@ -6,6 +6,7 @@
   "author": "Edel Altares (https://edelgrace.me)",
   "dependencies": {
     "discord.io": "github:woor/discord.io#gateway_v6",
+    "mongodb": "^3.1.0-beta4",
     "winston": "^2.4.2"
   },
   "repository": {
