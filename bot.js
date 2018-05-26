@@ -14,6 +14,28 @@ logger.add(logger.transports.Console, {
   colorize: true
 });
 
+var SerialPort = require("serialport");
+
+// start a parser
+var Readline = SerialPort.parsers.Readline;
+var parser = new Readline();
+
+// open the port
+var serialport = new SerialPort("COM5", {baudRate: 9600});
+
+// add parser
+serialport.pipe(parser);
+parser.on('data', logger.info);
+
+// connected
+serialport.on('open', function(){
+  logger.info('Serial Port Opend');
+});
+
+serialport.on("error", function(err, callback) {
+  logger.error(err);
+});
+
 // initialize the bot
 var bot = new Discord.Client({
   token: auth.token,
