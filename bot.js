@@ -5,6 +5,7 @@
 var auth = require('./auth.json');
 var logger = require('winston');
 var Discord = require('discord.io');
+var room = require('./Room.js');
 
 // logger settings
 logger.level = 'debug';
@@ -41,11 +42,13 @@ bot.on('message', function (user, userID, channelID, message, event) {
   // check if a bot command
   if(msg.startsWith(".csus")) {
     botMsg = "";
-    
+
     switch(msg) {
       // CSUS ROOM STATUS
       case '.csus room':
-        botMsg = "The CSUS room is ";
+        roomStatus = room.Status();
+
+        botMsg = "The CSUS room is " + roomStatus;
 
         // send a response
         bot.sendMessage({
@@ -57,7 +60,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
 
       // COMMAND NOT RECOGNIZED
       default:
-        botMsg = "Are you trying to talk to @CSUSBot? Your command was not recognized";
+        botMsg = "Are you trying to talk to *CSUSBot*? Your command was not recognized";
 
         bot.sendMessage({
           to: channelID,
