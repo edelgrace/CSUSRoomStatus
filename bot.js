@@ -6,12 +6,16 @@ var auth = require('./auth.json');
 var logger = require('winston');
 var Discord = require('discord.io');
 var room = require('./Room.js');
+var dateTime = require('node-datetime');
 
 const csus_channel = "451174282412818433";
 var roomStatus = true;
 
 // event emitter
 var eventEmitter = room.emitter;
+
+// datetime
+var dt = dateTime.create();
 
 // logger settings
 logger.level = 'debug';
@@ -36,27 +40,21 @@ bot.on('ready', function (event) {
 
 eventEmitter.on('open', function() {	
   roomStatus = true;
-  botMsg = "The CSUS room is *OPEN*";
+  
+  var time = dt.format("H:M");
+  botMsg = "**" + time + ":** The CSUS room is *OPEN*";
 
-  // send a response
-  bot.sendMessage({
-	to: csus_channel,
-	message: botMsg
-  });
+  sendMessage(botMsg, csus_channel);
 });
-
 
 eventEmitter.on('closed', function() {
   roomStatus = false;
-  botMsg = "The CSUS room is *CLOSED*";
+  
+  var time = dt.format("H:M");
+  botMsg = "**" + time + ":** The CSUS room is *CLOSED*";
 
-  // send a response
-  bot.sendMessage({
-	to: csus_channel,
-	message: botMsg
-  });
+  sendMessage(botMsg, csus_channel);
 });
-
 
 // log any errors
 bot.on('disconnect', function(error, code) {
@@ -71,8 +69,10 @@ bot.on('message', function (user, userID, channelID, message, event) {
 
   // check if a bot command
   if(msg.startsWith(".csus")) {
-    botMsg = "";
-
+    
+    var time = dt.format("H:M");
+    botMsg = "**" + time + ":** ";
+    
     switch(msg) {
       // CSUS ROOM STATUS
       case '.csus room':
@@ -85,7 +85,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
           state = "*CLOSED*"
         }
 		
-        botMsg = "The CSUS room is " + state;
+        botMsg += "The CSUS room is " + state;
 
         // send a response
         sendMessage(botMsg, channelID);
