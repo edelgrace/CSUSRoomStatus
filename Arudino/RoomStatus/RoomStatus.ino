@@ -1,7 +1,7 @@
 int LDR_Pin = A0; //analog pin 0
 int curr_value = 0;
 int prev_value = 0;
-const int delay_sec = 60*1000;
+const int delay_sec = 5*1000; // 5 seconds
 
 void setup(){
   Serial.begin(9600);

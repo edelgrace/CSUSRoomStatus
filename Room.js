@@ -8,12 +8,16 @@ var exports = module.exports = {};
 
 var SerialPort = require("serialport");
 var logger = require('winston');
+var dateTime = require('node-datetime');
 
 // global variables
 var prev_value = 0;
 var curr_value = 0;
 var room_status = true;
-var first = true;
+const delay = 30*1000; // 30 seconds
+var dt = dateTime.create();
+
+var timestamp = dt.now();
 
 // logger settings
 logger.level = 'debug';
@@ -41,9 +45,7 @@ serialport.pipe(parser);
 // get data as it's coming through
 parser.on('data', function(data){
   // current time
-  var dateTime = require('node-datetime');
-  var dt = dateTime.create();
-  var time = dt.format('Y-m-d H:M:S');
+  var time = dt.now();
 	
   curr_value = parseInt(data, 10);
 
@@ -54,7 +56,7 @@ parser.on('data', function(data){
     
     // room is open
     if(difference < 0) {
-      if (!room_status) {
+      if (!room_status & time > timestamp + delay) {
         logger.info(time + " ROOM OPEN");
         room_status = true;        
         em.addListener('open', function () {});
@@ -65,7 +67,7 @@ parser.on('data', function(data){
 
     // room is closed
     else {
-      if(room_status & prev_value != 0) { 
+      if(room_status & prev_value != 0 & time > timestamp + delay) { 
         logger.info(time + " ROOM CLOSED");
         room_status = false;     
         em.addListener('closed', function () {});
@@ -75,7 +77,7 @@ parser.on('data', function(data){
   }
   
   prev_value = curr_value;
-
+  timestamp = time;
 });
 
 // connected

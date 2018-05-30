@@ -6,8 +6,8 @@ var auth = require('./auth.json');
 var logger = require('winston');
 var Discord = require('discord.io');
 var room = require('./Room.js');
-var csus_channel = "352560223061540864";
 
+const csus_channel = "451174282412818433";
 var roomStatus = true;
 
 // event emitter
@@ -76,34 +76,37 @@ bot.on('message', function (user, userID, channelID, message, event) {
     switch(msg) {
       // CSUS ROOM STATUS
       case '.csus room':
-		var state = "";
-		
-		if(roomStatus) {
-		  state = "*OPEN*";
-		}
-		else {
-		  state = "*CLOSED*"
-		}
+        var state = "";
+        
+        if(roomStatus) {
+          state = "*OPEN*";
+        }
+        else {
+          state = "*CLOSED*"
+        }
 		
         botMsg = "The CSUS room is " + state;
 
         // send a response
-        bot.sendMessage({
-          to: channelID,
-          message: botMsg
-        });
+        sendMessage(botMsg, channelID);
 
         break;
 
+      // ASK FOR HELP
+      case '.csus help':
+        botMsg = "contact: csus@ucalgary.ca | get room status: *.csus room*"
+        botMsg += "| source code: <https://github.com/edelgrace/CSUSRoomStatus>";
+        
+        sendMessage(botMsg, channelID);
+        
+        break;
+        
       // COMMAND NOT RECOGNIZED
       default:
-        botMsg = "Are you trying to talk to *CSUSBot*? Your command was not recognized";
+        botMsg = "contact: csus@ucalgary.ca | get room status: *.csus room*";
+        botMsg += "| source code: <https://github.com/edelgrace/CSUSRoomStatus>";
 
-        bot.sendMessage({
-          to: channelID,
-          message: botMsg
-        });
-
+        sendMessage(botMsg, channelID);
     }
 
     // log the interaction
@@ -112,3 +115,10 @@ bot.on('message', function (user, userID, channelID, message, event) {
   }
   
 });
+
+function sendMessage(msg, channelID) {
+  bot.sendMessage({
+    to: channelID,
+    message: msg
+  });
+}
