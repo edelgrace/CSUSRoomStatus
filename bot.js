@@ -8,7 +8,8 @@ var Discord = require('discord.io');
 var room = require('./Room.js');
 var dateTime = require('node-datetime');
 
-const csus_channel = "451174282412818433";
+// const csus_channel = "451174282412818433";
+const csus_channel = "445744499185025037";
 var roomStatus = true;
 
 // event emitter
@@ -69,7 +70,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
 
   // check if a bot command
   if(msg.startsWith(".csus")) {
-    
+    var dt = dateTime.create();
     var time = dt.format("H:M");
     botMsg = "**" + time + ":** ";
     
@@ -121,4 +122,6 @@ function sendMessage(msg, channelID) {
     to: channelID,
     message: msg
   });
+  
+  logger.info("[CSUSBot]: " + msg);
 }

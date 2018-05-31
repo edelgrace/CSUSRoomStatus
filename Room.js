@@ -14,6 +14,7 @@ var dateTime = require('node-datetime');
 var prev_value = 0;
 var curr_value = 0;
 var room_status = true;
+var change = false;
 const delay = 30*1000; // 30 seconds
 var dt = dateTime.create();
 
@@ -52,32 +53,43 @@ parser.on('data', function(data){
   var difference = curr_value - prev_value;
 
   // compare the previous readings
-  if(Math.abs(difference) >= 300) {
-    
-    // room is open
-    if(difference < 0) {
-      if (!room_status & time > timestamp + delay) {
-        logger.info(time + " ROOM OPEN");
-        room_status = true;        
-        em.addListener('open', function () {});
-        em.emit('open');
-        
-      }
-    }
-
-    // room is closed
-    else {
-      if(room_status & prev_value != 0 & time > timestamp + delay) { 
-        logger.info(time + " ROOM CLOSED");
-        room_status = false;     
-        em.addListener('closed', function () {});
-        em.emit('closed');
-      }
-    }
+  if(Math.abs(difference) >= 400 & prev_value != 0) {
+    change = true;
+    logger.info("CHANGE: " + difference);
+  }
+  else {
+    logger.info("NO CHANGE: " + difference);
   }
   
+  // once a change is detected and 30s has passed by
+  if (change & time > timestamp + delay) {    
+    change = false;
+    
+    // check if reading doesnt matches status
+    if((curr_value > 1000 & room_status) | (curr_value < 1000 & !room_status)) {
+      room_status = !room_status;
+      logger.info("REAL");
+      
+      // send alert
+      send_alert(time, room_status);
+    }
+    else {
+      logger.info("FAKE");
+    }
+    
+    
+  }
+  
+  if(!change) {
+    timestamp = time;
+  }
+  
+  logger.info("30 sec: " + (time > timestamp + delay));
+  logger.info("currnt: " + curr_value);
+  logger.info("roomst: " + room_status);
+  logger.info("change: " + change);
+  logger.info("--------------------------");
   prev_value = curr_value;
-  timestamp = time;
 });
 
 // connected
@@ -89,6 +101,19 @@ serialport.on('open', function(){
 serialport.on("error", function(err, callback) {
   logger.error(err);
 });
+
+// send alert
+function send_alert(time, state) {
+  var status = "closed";
+  
+  if(state) {
+    status = "open";
+  }
+  
+  logger.info(time + " room " + status);
+  em.addListener(status, function () {});
+  em.emit(status);
+}
 
 exports.Status = function() {
   return "**CLOSED**";
