@@ -8,8 +8,9 @@ var Discord = require('discord.io');
 var room = require('./Room.js');
 var dateTime = require('node-datetime');
 
-// const csus_channel = "451174282412818433";
-const csus_channel = "445744499185025037";
+const csus_channel = "451174282412818433";
+// const csus_channel = "445744499185025037";
+
 var roomStatus = true;
 
 // event emitter
@@ -50,7 +51,7 @@ eventEmitter.on('open', function() {
 
 eventEmitter.on('closed', function() {
   roomStatus = false;
-  
+  var dt = dateTime.create();
   var time = dt.format("H:M");
   botMsg = "**" + time + ":** The CSUS room is *CLOSED*";
 
@@ -115,6 +116,10 @@ bot.on('message', function (user, userID, channelID, message, event) {
     logger.info("[CSUSBot]: " + botMsg);
   }
   
+});
+
+bot.on('error', function(err, callback) {
+  logger.error(err);
 });
 
 function sendMessage(msg, channelID) {

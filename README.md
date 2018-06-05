@@ -10,7 +10,7 @@ A small project that lets the CSUS Discord server know when the room is open or 
   * [serialport](https://www.npmjs.com/package/serialport)
 * [An Arduino](https://www.arduino.cc/)
 
-## How to Use
+## How to Install
 
 ### Setting up the Arduino
 

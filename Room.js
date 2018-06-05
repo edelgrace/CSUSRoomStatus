@@ -53,7 +53,7 @@ parser.on('data', function(data){
   var difference = curr_value - prev_value;
 
   // compare the previous readings
-  if(Math.abs(difference) >= 400 & prev_value != 0) {
+  if(Math.abs(difference) >= 350 & prev_value != 0) {
     change = true;
     logger.info("CHANGE: " + difference);
   }
@@ -84,6 +84,7 @@ parser.on('data', function(data){
     timestamp = time;
   }
   
+  logger.info(dateTime.create().now());
   logger.info("30 sec: " + (time > timestamp + delay));
   logger.info("currnt: " + curr_value);
   logger.info("roomst: " + room_status);
