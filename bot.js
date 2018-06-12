@@ -43,7 +43,9 @@ bot.on('ready', function (event) {
 eventEmitter.on('open', function() {	
   roomStatus = true;
   
+  var dt = dateTime.create();
   var time = dt.format("H:M");
+
   botMsg = "**" + time + ":** The CSUS room is *OPEN*";
 
   sendMessage(botMsg, csus_channel);
@@ -51,8 +53,10 @@ eventEmitter.on('open', function() {
 
 eventEmitter.on('closed', function() {
   roomStatus = false;
+
   var dt = dateTime.create();
   var time = dt.format("H:M");
+
   botMsg = "**" + time + ":** The CSUS room is *CLOSED*";
 
   sendMessage(botMsg, csus_channel);
