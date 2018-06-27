@@ -6,6 +6,7 @@ Description: Will read from the Arduino
 
 var exports = module.exports = {};
 
+var auth = require('./auth.json');
 var SerialPort = require("serialport");
 var logger = require('winston');
 var dateTime = require('node-datetime');
@@ -38,7 +39,7 @@ var em = new events.EventEmitter();
 exports.emitter = em;
 
 // open the port
-var serialport = new SerialPort("COM3", {baudRate: 9600});
+var serialport = new SerialPort(auth.port, {baudRate: 9600});
 
 // add parser
 serialport.pipe(parser);
