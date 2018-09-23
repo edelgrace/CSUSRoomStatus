@@ -1,7 +1,7 @@
 var net = require('net');
 var logger = require('winston');
 
-var client = [];
+var clients = [];
 
 logger.level = 'debug';
 logger.remove(logger.transports.Console);
@@ -25,7 +25,7 @@ net.createServer(function(socket) {
   });
 
   socket.on('end', function() {
-    clients.spice(clients.indexOf(socket), 1);
+    clients.splice(clients.indexOf(socket), 1);
     broadcast(socket.name + "left\n");
     logger.log(socket.name + "left\n");
   });
