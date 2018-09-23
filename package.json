@@ -7,9 +7,13 @@
   "dependencies": {
     "discord.io": "github:woor/discord.io#gateway_v6",
     "mongodb": "^3.1.0-beta4",
+<<<<<<< HEAD
     "node-datetime": "^2.0.6",
     "serialport": "^6.2.0",
     "thread-sleep": "^2.0.0",
+=======
+    "socket.io": "^2.1.1",
+>>>>>>> c7a4877190c3ade3340113c925eab993ef0b9fab
     "winston": "^2.4.2"
   },
   "repository": {
