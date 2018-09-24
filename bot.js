@@ -9,11 +9,8 @@ var dateTime = require('node-datetime');
 var auth = require('./config/auth.json');
 var config = require('./config/config.json');
 
-var clients = [];
-
 const CHANNEL = config.channel;
-
-var HELP_MSG = '```.csus help   \t get the list of commands and contact info\n' +
+const HELP_MSG = '```.csus help   \t get the list of commands and contact info\n' +
   '.csus room   \t get the room status\n' +
   '.csus arduino\t get the arduino status\n\n```' + 
   'Questions? Email us at **csus@ucalgary.ca**\n' + 
@@ -21,8 +18,7 @@ var HELP_MSG = '```.csus help   \t get the list of commands and contact info\n' 
 
 var arduinoStatus = true;
 var roomStatus = true;
-
-// datetime
+var clients = [];
 var dt = dateTime.create();
 
 // logger settings
@@ -77,7 +73,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
 		
         botMsg += 'The CSUS room is ' + state;
 
-        // send a response
         sendMessage(botMsg, channelID);
 
         break;
@@ -94,7 +89,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
         }
 
         botMsg += "The arduino is " + state;
-
+        
         sendMessage(botMsg, channelID);
 
         break;
