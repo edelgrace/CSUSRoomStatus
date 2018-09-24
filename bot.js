@@ -92,7 +92,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
           state = '*NOT WORKING*';
         }
 
-        botMsg += 'The arduino is ' + arduinoStatus;
+        botMsg += "The arduino is " + state;
 
         sendMessage(botMsg, channelID);
 
