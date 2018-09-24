@@ -60,7 +60,7 @@ function checkArduino() {
   if(timestamp + delay > time) {
     prevArduinoStatus = false;
 
-    botMsg = "**" + time + ":** The arduino is *NOT WORKING*";
+    botMsg = "**" + dt.format("H:M") + ":** The arduino is *NOT WORKING*";
     sendMessage(botMsg);
   }
 }
