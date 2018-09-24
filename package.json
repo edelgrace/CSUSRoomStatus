@@ -1,5 +1,5 @@
 {
-  "name": "CSUSBot",
+  "name": "csusbot",
   "version": "0.0.1",
   "description": "A bot that will tell users whether or not the room is open",
   "main": "bot.js",
@@ -7,13 +7,22 @@
   "dependencies": {
     "discord.io": "github:woor/discord.io#gateway_v6",
     "mongodb": "^3.1.0-beta4",
-    "node-datetime": "^2.0.6",
-    "serialport": "^6.2.0",
+    "node-datetime": "^2.1.2",
+    "serialport": "^6.2.2",
     "thread-sleep": "^2.0.0",
     "winston": "^2.4.2"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/edelgrace/CSUSRoomStatus"
-  }
+    "url": "git://github.com/edelgrace/CSUSRoomStatus.git"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "bugs": {
+    "url": "https://github.com/edelgrace/CSUSRoomStatus/issues"
+  },
+  "homepage": "https://github.com/edelgrace/CSUSRoomStatus#readme",
+  "devDependencies": {},
+  "license": "ISC"
 }
