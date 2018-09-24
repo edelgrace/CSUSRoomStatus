@@ -92,6 +92,8 @@ parser.on('data', function(data){
   logger.info("change: " + change);
   logger.info("--------------------------");
   prev_value = curr_value;
+
+  send_alert(time, change);
 });
 
 // connected
@@ -106,13 +108,18 @@ serialport.on("error", function(err, callback) {
 
 // send alert
 function send_alert(time, state) {
-  var status = "closed";
-  
-  if(state) {
-    status = "open";
+  var status = "arduino on";
+
+  if(state || !state) {
+    status = "closed";
+
+    if(state) {
+      status = "open";
+    }
+    
+    logger.info(time + " room " + status);
   }
-  
-  logger.info(time + " room " + status);
+
   em.addListener(status, function () {});
   em.emit(status);
 }

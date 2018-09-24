@@ -1,20 +1,18 @@
 // Date: 2018-05-14
 // Author: Edel Altares
-// Description: Discord bot for the CSUS UCalgary server
+// Description: Discord bot for the CSUS UCalgary room
 
-var auth = require('./auth.json');
+var auth = require('./config/auth.json');
 var logger = require('winston');
 var Discord = require('discord.io');
-var room = require('./Room.js');
 var dateTime = require('node-datetime');
+var net = require('net');
 
-const csus_channel = "451174282412818433";
-// const csus_channel = "445744499185025037";
+var clients = [];
+
+const channel = config.channel;
 
 var roomStatus = true;
-
-// event emitter
-var eventEmitter = room.emitter;
 
 // datetime
 var dt = dateTime.create();
@@ -38,28 +36,6 @@ logger.info("Bot created");
 bot.on('ready', function (event) {
   logger.info('Bot connected to server');
   logger.info('Bot logged in as: ' + bot.username + ' - (' + bot.id + ')');
-});
-
-eventEmitter.on('open', function() {	
-  roomStatus = true;
-  
-  var dt = dateTime.create();
-  var time = dt.format("H:M");
-
-  botMsg = "**" + time + ":** The CSUS room is *OPEN*";
-
-  sendMessage(botMsg, csus_channel);
-});
-
-eventEmitter.on('closed', function() {
-  roomStatus = false;
-
-  var dt = dateTime.create();
-  var time = dt.format("H:M");
-
-  botMsg = "**" + time + ":** The CSUS room is *CLOSED*";
-
-  sendMessage(botMsg, csus_channel);
 });
 
 // log any errors
@@ -134,3 +110,33 @@ function sendMessage(msg, channelID) {
   
   logger.info("[CSUSBot]: " + msg);
 }
+
+net.createServer(function(socket) {
+  
+  socket.name = socket.remoteAddress + ":" + socket.remotePort;
+
+  clients.push(socket);
+
+  socket.write("Welcome " + socket.name + "\n");
+  broadcast(socket.name + " joined\n", socket);
+  console.log(socket.name + " joined\n");
+
+  socket.on('data', function(data) {
+    broadcast(socket.name + "> " + data, socket);
+    console.log(socket.name + "> " + data)
+  });
+
+  socket.on('end', function() {
+    clients.splice(clients.indexOf(socket), 1);
+    broadcast(socket.name + "left\n");
+    console.log(socket.name + "left\n");
+  });
+
+  function broadcast(message, sender) {
+    clients.forEach(function (client) {
+      if (client === sender) return;
+      client.writer(message);
+      console.log(message);
+    });
+  }
+}).listen(5000);
