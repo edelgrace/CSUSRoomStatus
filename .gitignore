@@ -1,5 +1,5 @@
 auth.json
-config/
+config
 node_modules
 build
 npm-debug.log
