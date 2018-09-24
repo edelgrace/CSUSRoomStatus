@@ -100,8 +100,14 @@ bot.on('message', function (user, userID, channelID, message, event) {
 
       // ASK FOR HELP
       case '.csus help':
-      default:
         sendMessage(HELP_MSG, channelID);
+        break;
+
+      default:
+        botMsg = ":thinking: That isn't a command I know. Did you mean this?"
+        botMsg += HELP_MSG;
+
+        sendMessage(botMsg, channelID);
     
         break;
       }
