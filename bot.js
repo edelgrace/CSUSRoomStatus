@@ -13,10 +13,10 @@ var clients = [];
 
 const channel = config.channel;
 
-var HELP_MSG = "```**.csus room** get the room status \n "
-HELP_MSG    += "**.csus arduino** get the arduino status \n\n" 
+var HELP_MSG = "```.csus room \t get the room status \n "
+HELP_MSG    += ".csus arduino \t get the arduino status \n\n```" 
 HELP_MSG    += "Questions? Email us at **csus@ucalgary.ca** \n"
-HELP_MSG    += "Contribute! **<https://github.com/edelgrace/CSUSRoomStatus>**```";
+HELP_MSG    += "Contribute! **<https://github.com/edelgrace/CSUSRoomStatus>**";
 
 var arduinoStatus = true;
 var roomStatus = true;
