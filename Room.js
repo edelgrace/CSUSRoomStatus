@@ -6,7 +6,7 @@ Description: Will read from the Arduino
 
 var exports = module.exports = {};
 
-var auth = require('./auth.json');
+var auth = require('./config/auth.json');
 var SerialPort = require("serialport");
 var logger = require('winston');
 var dateTime = require('node-datetime');
