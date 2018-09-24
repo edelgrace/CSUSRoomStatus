@@ -81,8 +81,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
 
         break;
 
-    // ARDUINO STATUS
-    case '.csus arduino':
+      // ARDUINO STATUS
+      case '.csus arduino':
         var state = "";
 
         if(arduinoStatus) {
@@ -99,12 +99,12 @@ bot.on('message', function (user, userID, channelID, message, event) {
         break;
 
       // ASK FOR HELP
-      case '.csus help':  
-      default:      
+      case '.csus help':
+      default:
         sendMessage(HELP_MSG, channelID);
     
         break;
-    }
+      }
 
     // log the interaction
     logger.info("[" + user + " " + channelID + "]: " + msg);
