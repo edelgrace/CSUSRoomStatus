@@ -1,10 +1,13 @@
 var net = require('net');
 var config = require('./config/config.json');
 var room = require('./Room.js');
+var dateTime = require('node-datetime');
 
 var arduinoStatus = true;
 var prevArduinoStatus = true;
 var delay = 2*60*1000; // 2 minutes
+var dt = dateTime.create();
+var timestamp = dt.now();
 
 // event emitter
 var eventEmitter = room.emitter;
@@ -13,7 +16,6 @@ var eventEmitter = room.emitter;
 eventEmitter.on('open', function() {	
   roomStatus = true;
   
-  var dt = dateTime.create();
   var time = dt.format("H:M");
 
   botMsg = "**" + time + ":** The CSUS room is *OPEN*";
