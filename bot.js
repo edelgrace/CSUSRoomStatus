@@ -121,26 +121,24 @@ net.createServer(function(socket) {
 
   socket.write("Welcome " + socket.name + "\n");
   broadcast(socket.name + " joined\n", socket);
-  console.log(socket.name + " joined\n");
+  logger.log(socket.name + " joined\n");
 
   socket.on('data', function(data) {
     broadcast(socket.name + "> " + data, socket);
-    console.log(socket.name + "> " + data)
+    logger.log(socket.name + "> " + data)
   });
 
   socket.on('end', function() {
     clients.splice(clients.indexOf(socket), 1);
     broadcast(socket.name + "left\n");
-    console.log(socket.name + "left\n");
+    logger.log(socket.name + "left\n");
   });
 
   function broadcast(message, sender) {
     clients.forEach(function (client) {
       if (client === sender) return;
       client.writer(message);
-      console.log(message);
+      logger.log(message);
     });
   }
 }).listen(5000);
-
-console.log("Server started");
