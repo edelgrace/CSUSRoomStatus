@@ -13,6 +13,11 @@ var clients = [];
 
 const channel = config.channel;
 
+var HELP_MSG = "`.csus room` get the room status \n "
+HELP_MSG    += "`.csus arduino` get the arduino status \n\n" 
+HELP_MSG    += "Questions? Email us at `csus@ucalgary.ca` \n"
+HELP_MSG    += "Contribute! `https://github.com/edelgrace/CSUSRoomStatus";
+
 var arduinoStatus = true;
 var roomStatus = true;
 
@@ -76,21 +81,29 @@ bot.on('message', function (user, userID, channelID, message, event) {
 
         break;
 
-      // ASK FOR HELP
-      case '.csus help':
-        botMsg = "contact: csus@ucalgary.ca | get room status: *.csus room*"
-        botMsg += "| source code: <https://github.com/edelgrace/CSUSRoomStatus>";
-        
-        sendMessage(botMsg, channelID);
-        
-        break;
-        
-      // COMMAND NOT RECOGNIZED
-      default:
-        botMsg = "contact: csus@ucalgary.ca | get room status: *.csus room*";
-        botMsg += "| source code: <https://github.com/edelgrace/CSUSRoomStatus>";
+    // ARDUINO STATUS
+    case '.csus arduino':
+        var state = "";
+
+        if(arduinoStatus) {
+          state = "*WORKING*";
+        }
+        else {
+          state = "*NOT WORKING*";
+        }
+
+        botMsg += "The arduino is " + state;
 
         sendMessage(botMsg, channelID);
+
+        break;
+
+      // ASK FOR HELP
+      case '.csus help':  
+      default:      
+        sendMessage(HELP_MSG, channelID);
+    
+        break;
     }
 
     // log the interaction
