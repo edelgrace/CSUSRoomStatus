@@ -2,21 +2,21 @@
 // Author: Edel Altares
 // Description: Discord bot for the CSUS UCalgary room
 
-var auth = require('./config/auth.json');
-var config = require('./config/config.json');
+var net = require('net');
 var logger = require('winston');
 var Discord = require('discord.io');
 var dateTime = require('node-datetime');
-var net = require('net');
+var auth = require('./config/auth.json');
+var config = require('./config/config.json');
 
 var clients = [];
 
-const channel = config.channel;
+const CHANNEL = config.channel;
 
-var HELP_MSG = "```.csus room   \t get the room status\n"
-HELP_MSG    += ".csus arduino\t get the arduino status\n\n```" 
-HELP_MSG    += "Questions? Email us at **csus@ucalgary.ca**\n"
-HELP_MSG    += "Contribute! **<https://github.com/edelgrace/CSUSRoomStatus>**";
+var HELP_MSG = '```.csus room   \t get the room status\n' +
+  '.csus arduino\t get the arduino status\n\n```' + 
+  'Questions? Email us at **csus@ucalgary.ca**\n' + 
+  'Contribute! **<https://github.com/edelgrace/CSUSRoomStatus>**';
 
 var arduinoStatus = true;
 var roomStatus = true;
@@ -37,7 +37,7 @@ var bot = new Discord.Client({
   autorun: true
 });
 
-logger.info("Bot created");
+logger.info('Bot created');
 
 // log connection
 bot.on('ready', function (event) {
@@ -57,24 +57,24 @@ bot.on('message', function (user, userID, channelID, message, event) {
   msg = msg.toLowerCase();
 
   // check if a bot command
-  if(msg.startsWith(".csus")) {
+  if(msg.startsWith('.csus')) {
     var dt = dateTime.create();
-    var time = dt.format("H:M");
-    botMsg = "**" + time + ":** ";
+    var time = dt.format('H:M');
+    botMsg = '**' + time + ':** ';
     
     switch(msg) {
       // CSUS ROOM STATUS
       case '.csus room':
-        var state = "";
+        var state = '';
         
         if(roomStatus) {
-          state = "*OPEN*";
+          state = '*OPEN*';
         }
         else {
-          state = "*CLOSED*"
+          state = '*CLOSED*'
         }
 		
-        botMsg += "The CSUS room is " + state;
+        botMsg += 'The CSUS room is ' + state;
 
         // send a response
         sendMessage(botMsg, channelID);
@@ -83,16 +83,16 @@ bot.on('message', function (user, userID, channelID, message, event) {
 
       // ARDUINO STATUS
       case '.csus arduino':
-        var state = "";
+        var state = '';
 
         if(arduinoStatus) {
-          state = "*WORKING*";
+          state = '*WORKING*';
         }
         else {
-          state = "*NOT WORKING*";
+          state = '*NOT WORKING*';
         }
 
-        botMsg += "The arduino is " + arduinoStatus;
+        botMsg += 'The arduino is ' + arduinoStatus;
 
         sendMessage(botMsg, channelID);
 
@@ -107,8 +107,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
       }
 
     // log the interaction
-    logger.info("[" + user + " " + channelID + "]: " + msg);
-    logger.info("[CSUSBot]: " + botMsg);
+    logger.info('[' + user + ' ' + channelID + ']: ' + msg);
+    logger.info('[CSUSBot]: ' + botMsg);
   }
   
 });
@@ -123,43 +123,46 @@ function sendMessage(msg, channelID) {
     message: msg
   });
 
-  logger.info("[CSUSBot]: " + msg);
+  logger.info('[CSUSBot]: ' + msg);
 }
 
 net.createServer(function(socket) {
   logger.info('Server started');
   
-  socket.name = socket.remoteAddress + ":" + socket.remotePort;
+  socket.name = socket.remoteAddress + ':' + socket.remotePort;
 
   clients.push(socket);
 
-  socket.write("Welcome " + socket.name + "\n");
-  logger.info(socket.name + " joined\n");
+  socket.write('Welcome ' + socket.name + '\n');
+  logger.info(socket.name + ' joined\n');
 
   socket.on('data', function(data) {
 
   
-    if (data.includes("*NOT WORKING*")) {
+    if (data.indexOf('*NOT WORKING*') !== -1) {
       arduinoStatus = false;
     }
     
-    if (data.includes("*WORKING*")) {
+    if (data.indexOf('*WORKING*') !== -1) {
       arduinoStatus = true;
     }
 
-    logger.info("> " + data);
+    logger.info('> ' + data);
 
     sendMessage(data, config.channel);
   });
 
   socket.on('end', function() {
     clients.splice(clients.indexOf(socket), 1);
-    logger.info(socket.name + "left\n");
+    logger.info(socket.name + 'left\n');
   });
 
   function broadcast(message, sender) {
     clients.forEach(function (client) {
-      if (client === sender) return;
+      if (client === sender) {
+        return;
+      }
+      
       client.write(message);
       logger.info(message);
     });
