@@ -13,6 +13,7 @@ var clients = [];
 
 const channel = config.channel;
 
+var arduinoStatus = true;
 var roomStatus = true;
 
 // datetime
@@ -108,7 +109,7 @@ function sendMessage(msg, channelID) {
     to: channelID,
     message: msg
   });
-  
+
   logger.info("[CSUSBot]: " + msg);
 }
 
@@ -123,6 +124,16 @@ net.createServer(function(socket) {
   logger.info(socket.name + " joined\n");
 
   socket.on('data', function(data) {
+
+  
+    if (msg.includes("*NOT WORKING*")) {
+      arduinoStatus = false;
+    }
+    
+    if (msg.includes("*WORKING*")) {
+      arduinoStatus = true;
+    }
+
     logger.info("> " + data);
 
     sendMessage(data, config.channel);
