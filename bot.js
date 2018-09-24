@@ -113,6 +113,7 @@ function sendMessage(msg, channelID) {
 }
 
 net.createServer(function(socket) {
+  logger.log('Server started');
   
   socket.name = socket.remoteAddress + ":" + socket.remotePort;
 
