@@ -125,7 +125,7 @@ net.createServer(function(socket) {
   socket.on('data', function(data) {
     logger.info("> " + data);
 
-    sendMessage(data);
+    sendMessage(data, config.channel);
   });
 
   socket.on('end', function() {
