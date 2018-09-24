@@ -13,7 +13,8 @@ var clients = [];
 
 const CHANNEL = config.channel;
 
-var HELP_MSG = '```.csus room   \t get the room status\n' +
+var HELP_MSG = '.csus help   \tget the list of commands and contact info' +
+  '```.csus room   \t get the room status\n' +
   '.csus arduino\t get the arduino status\n\n```' + 
   'Questions? Email us at **csus@ucalgary.ca**\n' + 
   'Contribute! **<https://github.com/edelgrace/CSUSRoomStatus>**';
