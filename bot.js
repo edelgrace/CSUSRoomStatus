@@ -92,7 +92,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
           state = "*NOT WORKING*";
         }
 
-        botMsg += "The arduino is " + state;
+        botMsg += "The arduino is " + arduinoStatus;
 
         sendMessage(botMsg, channelID);
 
@@ -139,11 +139,11 @@ net.createServer(function(socket) {
   socket.on('data', function(data) {
 
   
-    if (msg.includes("*NOT WORKING*")) {
+    if (data.includes("*NOT WORKING*")) {
       arduinoStatus = false;
     }
     
-    if (msg.includes("*WORKING*")) {
+    if (data.includes("*WORKING*")) {
       arduinoStatus = true;
     }
 
