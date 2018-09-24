@@ -3,6 +3,7 @@
 // Description: Discord bot for the CSUS UCalgary room
 
 var auth = require('./config/auth.json');
+var config = require('./config/config.json');
 var logger = require('winston');
 var Discord = require('discord.io');
 var dateTime = require('node-datetime');
