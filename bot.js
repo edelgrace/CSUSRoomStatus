@@ -105,7 +105,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
         break;
 
       default:
-        botMsg = ":thinking: That isn't a command I know. Did you mean this?"
+        botMsg = ":thinking: That isn't a command I know. Here's a list of commands:\n"
         botMsg += HELP_MSG;
 
         sendMessage(botMsg, channelID);
