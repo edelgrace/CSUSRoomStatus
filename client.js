@@ -8,6 +8,7 @@ var prevArduinoStatus = true;
 var delay = 2*60*1000; // 2 minutes
 var dt = dateTime.create();
 var timestamp = dt.now();
+var roomStatus = true;
 
 // event emitter
 var eventEmitter = room.emitter;
@@ -47,24 +48,11 @@ eventEmitter.on('arduino on', function() {
     prevArduinoStatus = arduinoStatus;
 
     botMsg = "**" + time + ":** The arduino is *WORKING*";
-  }
-
-  sendMessage(botMsg);
-});
-
-// check if no response from the arduino every minute
-function checkArduino() {
-  var dt = dateTime.create();
-  var time = dt.now();
-
-  if(timestamp + delay > time) {
-    prevArduinoStatus = false;
-
-    botMsg = "**" + dt.format("H:M") + ":** The arduino is *NOT WORKING*";
+    
     sendMessage(botMsg);
   }
-}
-setInterval(checkArduino, 60*1000);
+
+});
 
 // create a client to send to sever
 var client = new net.Socket();
