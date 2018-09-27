@@ -24,9 +24,7 @@ var dt = dateTime.create();
 // logger settings
 logger.level = 'debug';
 logger.remove(logger.transports.Console);
-logger.add(logger.transports.Console, {
-  colorize: true
-});
+logger.add(logger.transports.File, {filename: 'bot.log'});
 
 // initialize the bot
 var bot = new Discord.Client({
