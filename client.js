@@ -68,8 +68,10 @@ client.on('close', function(err) {
 });
 
 client.on('error', function(err) {
-  logger.error(err);
-  client.connect(config.port, config.address);
+  console.log(err);
+  client.setTimeout(1000, function() {
+    client.connect(config.port, config.address);
+  });
 });
 
 // send information to the bot
