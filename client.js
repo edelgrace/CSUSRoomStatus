@@ -61,6 +61,17 @@ client.connect(config.port, config.address, function() {
   console.log('Connected to server');
 });
 
+client.on('close', function(err) {
+  client.setTimeout(1000, function() {
+    client.connect(config.port, config.address);
+  });
+});
+
+client.on('error', function(err) {
+  logger.error(err);
+  client.connect(config.port, config.address);
+});
+
 // send information to the bot
 function sendMessage(message) {
   client.write(message);
