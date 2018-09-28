@@ -117,6 +117,7 @@ bot.on('error', function(err, callback) {
   logger.error(err);
 });
 
+// send message to the bot
 function sendMessage(msg, channelID) {
   bot.sendMessage({
     to: channelID,
@@ -126,6 +127,7 @@ function sendMessage(msg, channelID) {
   logger.info('[CSUSBot]: ' + msg);
 }
 
+// create server
 net.createServer(function(socket) {
   logger.info('Server started');
   
@@ -150,6 +152,11 @@ net.createServer(function(socket) {
     logger.info('> ' + data);
 
     sendMessage(data, config.channel);
+  });
+
+
+  socket.on('error', function() {
+    logger.info(socket.name + 'letf\n');  
   });
 
   socket.on('end', function() {
