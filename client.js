@@ -61,14 +61,19 @@ client.connect(config.port, config.address, function() {
   console.log('Connected to server');
 });
 
+// on error, try to reconnect after delay
 client.on('close', function(err) {
+  console.log(err);
+
   client.setTimeout(delay, function() {
     client.connect(config.port, config.address);
   });
 });
 
+// on error, try to reconnect after delay
 client.on('error', function(err) {
   console.log(err);
+  
   client.setTimeout(delay, function() {
     client.connect(config.port, config.address);
   });
