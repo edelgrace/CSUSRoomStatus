@@ -62,14 +62,14 @@ client.connect(config.port, config.address, function() {
 });
 
 client.on('close', function(err) {
-  client.setTimeout(1000, function() {
+  client.setTimeout(delay, function() {
     client.connect(config.port, config.address);
   });
 });
 
 client.on('error', function(err) {
   console.log(err);
-  client.setTimeout(1000, function() {
+  client.setTimeout(delay, function() {
     client.connect(config.port, config.address);
   });
 });
