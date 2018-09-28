@@ -64,10 +64,6 @@ client.connect(config.port, config.address, function() {
 // on error, try to reconnect after delay
 client.on('close', function(err) {
   console.log(err);
-
-  client.setTimeout(1000*10, function() {
-    client.connect(config.port, config.address);
-  });
 });
 
 // on error, try to reconnect after delay
