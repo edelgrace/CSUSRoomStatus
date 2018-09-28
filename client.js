@@ -65,7 +65,7 @@ client.connect(config.port, config.address, function() {
 client.on('close', function(err) {
   console.log(err);
 
-  client.setTimeout(delay, function() {
+  client.setTimeout(1000*10, function() {
     client.connect(config.port, config.address);
   });
 });
@@ -73,8 +73,8 @@ client.on('close', function(err) {
 // on error, try to reconnect after delay
 client.on('error', function(err) {
   console.log(err);
-  
-  client.setTimeout(delay, function() {
+
+  client.setTimeout(1000*10, function() {
     client.connect(config.port, config.address);
   });
 });
