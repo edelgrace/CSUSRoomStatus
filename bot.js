@@ -98,21 +98,20 @@ bot.on('message', function (user, userID, channelID, message, event) {
 
         break;
 
+
       // ASK FOR HELP
       case '.csus help':
-        botMsg = "contact: csus@ucalgary.ca | get room status: *.csus room*"
-        botMsg += "| source code: <https://github.com/edelgrace/CSUSRoomStatus>";
-        
-        sendMessage(botMsg, channelID);
-        
+        sendMessage(HELP_MSG, channelID);
         break;
-        
-      // COMMAND NOT RECOGNIZED
+
       default:
-        botMsg = "contact: csus@ucalgary.ca | get room status: *.csus room*";
-        botMsg += "| source code: <https://github.com/edelgrace/CSUSRoomStatus>";
+        botMsg = ":thinking: That isn't a command I know. Here's a list of commands:\n"
+        botMsg += HELP_MSG;
 
         sendMessage(botMsg, channelID);
+    
+        break;
+      }
     }
 
     // log the interaction
