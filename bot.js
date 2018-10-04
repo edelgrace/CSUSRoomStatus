@@ -11,6 +11,12 @@ var dateTime = require('node-datetime');
 const csus_channel = "451174282412818433";
 // const csus_channel = "445744499185025037";
 
+const HELP_MSG = '```.csus help   \t get the list of commands and contact info\n' +
+  '.csus room   \t get the room status\n' +
+  '.csus arduino\t get the arduino status\n\n```' + 
+  'Questions? Email us at **csus@ucalgary.ca**\n' + 
+  'Contribute! **<https://github.com/edelgrace/CSUSRoomStatus>**';
+
 var roomStatus = true;
 
 // event emitter
@@ -117,8 +123,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
     // log the interaction
     logger.info("[" + user + " " + channelID + "]: " + msg);
     logger.info("[CSUSBot]: " + botMsg);
-  }
-  
 });
 
 bot.on('error', function(err, callback) {
