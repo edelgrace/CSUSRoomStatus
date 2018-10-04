@@ -2,7 +2,7 @@
 // Author: Edel Altares
 // Description: Discord bot for the CSUS UCalgary server
 
-var auth = require('./auth.json');
+var auth = require('./config/auth.json');
 var logger = require('winston');
 var Discord = require('discord.io');
 var room = require('./Room.js');

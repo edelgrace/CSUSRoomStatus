@@ -6,7 +6,7 @@ Description: Will read from the Arduino
 
 var exports = module.exports = {};
 
-var auth = require('./auth.json');
+var auth = require('./config/auth.json');
 var SerialPort = require("serialport");
 var logger = require('winston');
 var dateTime = require('node-datetime');
@@ -14,18 +14,25 @@ var dateTime = require('node-datetime');
 // global variables
 var prev_value = 0;
 var curr_value = 0;
-var room_status = true;
+var room_open = true;
 var change = false;
-const delay = 30*1000; // 30 seconds
 var dt = dateTime.create();
 
 var timestamp = dt.now();
+
+const delay = 10*1000; // 30 seconds
+const OPEN_READING = 900;
+const CLOSED_READING = 700;
+const CHANGE = 300;
 
 // logger settings
 logger.level = 'debug';
 logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {
   colorize: true
+});
+logger.add(logger.transports.File, {
+  filename: 'bot.log'
 });
 
 // create a parser
@@ -54,7 +61,7 @@ parser.on('data', function(data){
   var difference = curr_value - prev_value;
 
   // compare the previous readings
-  if(Math.abs(difference) >= 350 & prev_value != 0) {
+  if(Math.abs(difference) >= CHANGE & prev_value != 0) {
     change = true;
     logger.info("CHANGE: " + difference);
   }
@@ -67,12 +74,12 @@ parser.on('data', function(data){
     change = false;
     
     // check if reading doesnt matches status
-    if((curr_value > 1000 & room_status) | (curr_value < 1000 & !room_status)) {
-      room_status = !room_status;
+    if((curr_value > OPEN_READING & room_open) | (curr_value < CLOSED_READING & !room_open)) {
+      room_open = !room_open;
       logger.info("REAL");
       
       // send alert
-      send_alert(time, room_status);
+      send_alert(time, room_open);
     }
     else {
       logger.info("FAKE");
@@ -88,7 +95,7 @@ parser.on('data', function(data){
   logger.info(dateTime.create().now());
   logger.info("30 sec: " + (time > timestamp + delay));
   logger.info("currnt: " + curr_value);
-  logger.info("roomst: " + room_status);
+  logger.info("roomst: " + room_open);
   logger.info("change: " + change);
   logger.info("--------------------------");
   prev_value = curr_value;
