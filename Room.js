@@ -65,9 +65,6 @@ parser.on('data', function(data){
     change = true;
     logger.info("CHANGE: " + difference);
   }
-  else {
-    logger.info("NO CHANGE: " + difference);
-  }
   
   // once a change is detected and 30s has passed by
   if (change & time > timestamp + delay) {    
@@ -92,6 +89,7 @@ parser.on('data', function(data){
     timestamp = time;
   }
   
+  logger.remove(logger.transports.File);
   logger.info(dateTime.create().now());
   logger.info("30 sec: " + (time > timestamp + delay));
   logger.info("currnt: " + curr_value);
@@ -99,6 +97,9 @@ parser.on('data', function(data){
   logger.info("change: " + change);
   logger.info("--------------------------");
   prev_value = curr_value;
+  logger.add(logger.transports.File, {
+    filename: 'bot.log'
+  });
 });
 
 // connected
