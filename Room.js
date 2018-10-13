@@ -98,7 +98,10 @@ parser.on('data', function(data){
   logger.info("--------------------------");
   prev_value = curr_value;
   logger.add(logger.transports.File, {
-    filename: 'bot.log'
+    filename: 'bot.log',
+    timestamp: function() {
+      return dateTime.create().format("YYYY-MM-DD HH:mm");
+    }
   });
 });
 
