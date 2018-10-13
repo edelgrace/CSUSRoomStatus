@@ -78,6 +78,7 @@ bot.on('disconnect', function(error, code) {
 bot.on('message', function (user, userID, channelID, message, event) {
   msg = message.trim();
   msg = msg.toLowerCase();
+  botMsg = "";
 
   // check if a bot command
   if(msg.startsWith(".csus")) {
