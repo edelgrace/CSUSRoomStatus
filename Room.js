@@ -34,7 +34,7 @@ logger.add(logger.transports.Console, {
 logger.add(logger.transports.File, {
   filename: 'bot.log',
   timestamp: function() {
-    return dateTime.create().format("YYYY-MM-DD HH:mm");
+    return dateTime.create().format("Y-M-D H:M");
   }
 });
 
