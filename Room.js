@@ -32,7 +32,10 @@ logger.add(logger.transports.Console, {
   colorize: true
 });
 logger.add(logger.transports.File, {
-  filename: 'bot.log'
+  filename: 'bot.log',
+  timestamp: function() {
+    return dateTime.create().format("YYYY-MM-DD HH:mm");
+  }
 });
 
 // create a parser
