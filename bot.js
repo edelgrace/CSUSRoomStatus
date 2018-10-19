@@ -130,12 +130,12 @@ bot.on('error', function(err, callback) {
   logger.error(err);
 });
 
-bot.on('disconnect', reconnectDiscord.bind(this));
+bot.on('disconnect', reconnectDiscord.bind(bot));
 
 function reconnectDiscord(err, code) {
   if(code == 1000) {
     logger.info('Reconnecting to Discord...');
-    this.bot.connect();
+    this.connect();
   }
 }
 
